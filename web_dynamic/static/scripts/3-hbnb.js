@@ -33,35 +33,25 @@ $.get("http://127.0.0.1:5001/api/v1/status/")
 
 // Places search
 $.ajax({
-  type: "POST",
-  url: "http://127.0.0.1:5001/api/v1/places_search/",
-  contentType: "application/json",
+  url: 'http://127.0.0.1:5001/api/v1/places_search/',
+  type: 'POST',
+  contentType: 'application/json',
   data: JSON.stringify({}),
+  dataType: 'json',
   success: function(data) {
-    // Get the section where places will be displayed
-    const placesSection = $('section.places');
-
-    // Clear any existing places
-    placesSection.empty();
-
-    // Loop through the data and create HTML elements
-    data.forEach(place => {
-      // Create the place article
-      const placeArticle = $('<article></article>');
-
-      // Create and append the place name
-      const placeName = $('<h2></h2>').text(place.name);
-      placeArticle.append(placeName);
-
-      // Create and append description element
-      const description = $('<p></p>').text(place.description.replace(/Owner: .*/, ''));
-      article.append(description);
-
-      // Append the article to the section
-      placesSection.append(placeArticle);
-    });
+      for (let place of data) {
+          let article = $("<article>").appendTo(".places");
+          let title = $("<div>").addClass("title_box").appendTo(article);
+          $("<h2>").text(place.name).appendTo(title);
+          $("<div>").addClass("price_by_night").text(place.price_by_night + "$").appendTo(title);
+          let info = $("<div>").addClass("information").appendTo(article);
+          $("<div>").addClass("max_guest").text(place.max_guest).appendTo(info);
+          $("<div>").addClass("number_rooms").text(place.number_rooms).appendTo(info);
+          $("<div>").addClass("number_bathrooms").text(place.number_bathrooms).appendTo(info);
+          let description = $("<div>").addClass("description").text(place.description).appendTo(article);
+      }
   },
-  error: function() {
-    alert('Error occurred while searching for places');
+  error: function(error) {
+      console.error('Error submitting data:', error);
   }
 });
