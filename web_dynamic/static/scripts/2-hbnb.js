@@ -1,3 +1,4 @@
+//Amenities tickboxes
 $(document).ready(function() {
   const selectedAmenities = {};
 
@@ -16,6 +17,7 @@ $(document).ready(function() {
   });
 });
 
+// Api status
 $.get("http://127.0.0.1:5001/api/v1/status/")
 .done(function(data, textStatus) {
   if (data.status === "OK") {
